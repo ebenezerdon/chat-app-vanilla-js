@@ -11,7 +11,7 @@ const clearChatButton = document.querySelector('.clear-chat-button')
 const messages = JSON.parse(localStorage.getItem('messages')) || []
 
 const chatMessageElement = (message) => `
-  <div class="message">
+  <div class="message ${message.sender === 'John' ? 'blue-bg' : 'gray-bg'}">
     <div class="message-sender">${message.sender}</div>
     <div class="message-text">${message.text}</div>
     <div class="message-timestamp">${message.timestamp}</div>
@@ -20,6 +20,7 @@ const chatMessageElement = (message) => `
 
 window.onload = () => {
   messages.forEach((message) => {
+    console.log(message)
     chatMessages.innerHTML += chatMessageElement(message)
   })
 }
@@ -28,7 +29,20 @@ let messageSender = 'John'
 
 const updateMessageSender = (name) => {
   messageSender = name
-  chatHeader.innerText = `Chat App - ${messageSender}`
+  chatHeader.innerText = `${messageSender} chatting...`
+  chatInput.placeholder = `Type here, ${messageSender}...`
+
+  if (name === 'John') {
+    johnSelectorBtn.classList.add('active-person')
+    janeSelectorBtn.classList.remove('active-person')
+  }
+  if (name === 'Jane') {
+    janeSelectorBtn.classList.add('active-person')
+    johnSelectorBtn.classList.remove('active-person')
+  }
+
+  /* auto-focus the input field */
+  chatInput.focus()
 }
 
 johnSelectorBtn.onclick = () => updateMessageSender('John')

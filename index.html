@@ -9,19 +9,19 @@
   <body>
     <!-- Person selector: this contains buttons for user to select whether to chat as John or Jane -->
     <div class="person-selector">
-      <button class="button person-selector-button" id="john-selector">John</button>
+      <button class="button person-selector-button active-person" id="john-selector">John</button>
       <button class="button person-selector-button" id="jane-selector">Jane</button>
     </div>
     <div class="chat-container">
-      <h2 class="chat-header">Chat App - John</h2>
+      <h2 class="chat-header">John chatting...</h2>
 
       <div class="chat-messages">
-        <div class="message">
+        <div class="message blue-bg">
           <div class="message-sender">John</div>
           <div class="message-text">Hey, how's it going?</div>
           <div class="message-timestamp">10:30 AM</div>
         </div>
-        <div class="message">
+        <div class="message gray-bg">
           <div class="message-sender">Jane</div>
           <div class="message-text">It's going good, thanks for asking. How about you?</div>
           <div class="message-timestamp">10:35 AM</div>
@@ -29,7 +29,7 @@
       </div>
 
       <form class="chat-input-form">
-        <input type="text" class="chat-input" placeholder="Type your message..." />
+        <input type="text" class="chat-input" required placeholder="Type here, John..." />
         <button type="submit" class="button send-button">Send</button>
       </form>
       <button class="button clear-chat-button">Clear Chat</button>
