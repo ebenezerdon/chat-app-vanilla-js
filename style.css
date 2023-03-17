@@ -31,7 +31,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 1em;
-  margin: 5em auto 1em;
+  margin: 3em auto 1em;
   max-width: 40em;
 }
 
