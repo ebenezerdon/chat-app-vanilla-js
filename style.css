@@ -1,3 +1,17 @@
+body {
+  background-image: linear-gradient(
+    23deg,
+    hsl(49deg 100% 69%) 0%,
+    hsl(16deg 80% 61%) 2%,
+    hsl(330deg 81% 34%) 12%,
+    hsl(259deg 100% 15%) 50%,
+    hsl(212deg 100% 25%) 88%,
+    hsl(197deg 100% 30%) 98%,
+    hsl(183deg 79% 36%) 100%
+  );
+  height: 100vh;
+}
+
 .button {
   border: none;
   padding: 0.625em;
@@ -17,7 +31,7 @@
   display: flex;
   justify-content: center;
   gap: 1em;
-  margin: 5em auto 1em;
+  margin: 3em auto 1em;
   max-width: 40em;
 }
 
@@ -30,6 +44,7 @@
 
 .active-person {
   background: #08529d;
+  box-shadow: 0 0 0.5em 0.1em #c3c3c333;
 }
 
 .chat-container {
@@ -40,6 +55,7 @@
   margin: auto;
   max-width: 37.5em;
   height: 37.5em;
+  box-shadow: 0 0 1.25em 0.5em #c3c3c333;
 }
 
 .chat-header {
