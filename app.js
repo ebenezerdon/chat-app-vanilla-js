@@ -4,13 +4,13 @@ const johnSelectorBtn = document.querySelector('#john-selector')
 const janeSelectorBtn = document.querySelector('#jane-selector')
 const chatHeader = document.querySelector('.chat-header')
 const chatMessages = document.querySelector('.chat-messages')
-const chatInput = document.querySelector('.chat-input')
 const chatInputForm = document.querySelector('.chat-input-form')
-const clearChatButton = document.querySelector('.clear-chat-button')
+const chatInput = document.querySelector('.chat-input')
+const clearChatBtn = document.querySelector('.clear-chat-button')
 
 const messages = JSON.parse(localStorage.getItem('messages')) || []
 
-const chatMessageElement = (message) => `
+const createChatMessageElement = (message) => `
   <div class="message ${message.sender === 'John' ? 'blue-bg' : 'gray-bg'}">
     <div class="message-sender">${message.sender}</div>
     <div class="message-text">${message.text}</div>
@@ -20,8 +20,7 @@ const chatMessageElement = (message) => `
 
 window.onload = () => {
   messages.forEach((message) => {
-    console.log(message)
-    chatMessages.innerHTML += chatMessageElement(message)
+    chatMessages.innerHTML += createChatMessageElement(message)
   })
 }
 
@@ -63,7 +62,7 @@ const sendMessage = (e) => {
   localStorage.setItem('messages', JSON.stringify(messages))
 
   /* Add message to DOM */
-  chatMessages.innerHTML += chatMessageElement(message)
+  chatMessages.innerHTML += createChatMessageElement(message)
 
   /* Clear input field */
   chatInputForm.reset()
@@ -74,7 +73,7 @@ const sendMessage = (e) => {
 
 chatInputForm.addEventListener('submit', sendMessage)
 
-clearChatButton.addEventListener('click', () => {
+clearChatBtn.addEventListener('click', () => {
   localStorage.clear()
   chatMessages.innerHTML = ''
 })
