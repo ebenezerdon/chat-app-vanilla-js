@@ -10,52 +10,44 @@ ws.onmessage = (event) => {
   chatMessages.innerHTML += createChatMessageElement(message)
 }
 
-const johnSelectorBtn = document.querySelector('#john-selector')
-const janeSelectorBtn = document.querySelector('#jane-selector')
+const userInfoModal = document.querySelector('.user-info-modal')
+const userInfoForm = document.querySelector('.user-info-form')
+
 const chatHeader = document.querySelector('.chat-header')
 const chatMessages = document.querySelector('.chat-messages')
 const chatInputForm = document.querySelector('.chat-input-form')
 const chatInput = document.querySelector('.chat-input')
 const clearChatBtn = document.querySelector('.clear-chat-button')
 
-const messages = JSON.parse(localStorage.getItem('messages')) || []
+let messageSender = ''
+let chatCode = ''
 
 const createChatMessageElement = (message) => `
-  <div class="message ${message.sender === 'John' ? 'blue-bg' : 'gray-bg'}">
+  <div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
     <div class="message-sender">${message.sender}</div>
     <div class="message-text">${message.text}</div>
     <div class="message-timestamp">${message.timestamp}</div>
   </div>
 `
 
-window.onload = () => {
-  messages.forEach((message) => {
-    chatMessages.innerHTML += createChatMessageElement(message)
-  })
-}
-
-let messageSender = 'John'
-
 const updateMessageSender = (name) => {
   messageSender = name
   chatHeader.innerText = `${messageSender} chatting...`
   chatInput.placeholder = `Type here, ${messageSender}...`
 
-  if (name === 'John') {
-    johnSelectorBtn.classList.add('active-person')
-    janeSelectorBtn.classList.remove('active-person')
-  }
-  if (name === 'Jane') {
-    janeSelectorBtn.classList.add('active-person')
-    johnSelectorBtn.classList.remove('active-person')
-  }
-
   /* auto-focus the input field */
   chatInput.focus()
 }
 
-johnSelectorBtn.onclick = () => updateMessageSender('John')
-janeSelectorBtn.onclick = () => updateMessageSender('Jane')
+userInfoForm.addEventListener('submit', (e) => {
+  e.preventDefault()
+
+  updateMessageSender(e.target.username.value)
+  chatCode = e.target.chatCode.value
+
+  ws.send(JSON.stringify({ type: 'join', chatCode }))
+  userInfoModal.style.display = 'none'
+})
 
 const sendMessage = (e) => {
   e.preventDefault()
@@ -65,6 +57,7 @@ const sendMessage = (e) => {
     sender: messageSender,
     text: chatInput.value,
     timestamp,
+    chatCode,
   }
 
   // Send message through WebSocket
