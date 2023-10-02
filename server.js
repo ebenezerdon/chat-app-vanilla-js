@@ -9,16 +9,28 @@ const server = http.createServer((req, res) => {
 /* Initialize WebSocket server and bind it to the HTTP server */
 const wss = new WebSocket.Server({ server })
 
-/* Handle incoming WebSocket connections */
+// Map to store chatCode and corresponding WebSocket clients
+const chatRooms = new Map()
+
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        console.log('Message received from client', message.toString())
-        // default message type is Buffer so we need to convert it to string
-        client.send(message.toString())
-      }
-    })
+    const { sender, text, timestamp, chatCode } = JSON.parse(message.toString())
+
+    // Associate new client with chatCode
+    if (!chatRooms.has(chatCode)) {
+      chatRooms.set(chatCode, new Set())
+    }
+    chatRooms.get(chatCode).add(ws)
+
+    // Broadcast message to clients with the same chatCode
+    const targetClients = chatRooms.get(chatCode)
+    if (targetClients) {
+      targetClients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ sender, text, timestamp, chatCode }))
+        }
+      })
+    }
   })
 })
 
