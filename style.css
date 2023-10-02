@@ -14,7 +14,7 @@ body {
 }
 
 /* User Info Modal */
-.modal {
+.user-info-modal {
   position: fixed;
   inset: 0;
   background-color: rgba(21, 32, 43, 0.9);
