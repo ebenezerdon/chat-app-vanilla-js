@@ -1,5 +1,15 @@
 // @ts-nocheck
 
+// Create a WebSocket connection
+const ws = new WebSocket('ws://localhost:3000')
+
+ws.onmessage = (event) => {
+  console.log('Message received from server')
+  const message = JSON.parse(event.data)
+  console.log(message)
+  chatMessages.innerHTML += createChatMessageElement(message)
+}
+
 const johnSelectorBtn = document.querySelector('#john-selector')
 const janeSelectorBtn = document.querySelector('#jane-selector')
 const chatHeader = document.querySelector('.chat-header')
@@ -57,17 +67,13 @@ const sendMessage = (e) => {
     timestamp,
   }
 
-  /* Save message to local storage */
-  messages.push(message)
-  localStorage.setItem('messages', JSON.stringify(messages))
+  // Send message through WebSocket
+  ws.send(JSON.stringify(message))
 
-  /* Add message to DOM */
-  chatMessages.innerHTML += createChatMessageElement(message)
-
-  /* Clear input field */
+  // Clear input field
   chatInputForm.reset()
 
-  /*  Scroll to bottom of chat messages */
+  // Scroll to bottom of chat messages
   chatMessages.scrollTop = chatMessages.scrollHeight
 }
 
