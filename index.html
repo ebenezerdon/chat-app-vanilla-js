@@ -7,11 +7,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- Person selector: this contains buttons for user to select whether to chat as John or Jane -->
-    <div class="person-selector">
-      <button class="button person-selector-button active-person" id="john-selector">John</button>
-      <button class="button person-selector-button" id="jane-selector">Jane</button>
+    <!-- UserInfo Modal: Contains 2 input fields for username and chat code -->
+    <div class="modal" id="user-info-modal">
+      <div class="modal-content">
+        <h2 class="modal-header">Enter your username and chat code</h2>
+        <form class="user-info-form">
+          <input type="text" class="username-input" required placeholder="Username" />
+          <input type="text" class="chat-code-input" required placeholder="Chat Code" />
+          <button type="submit" class="button join-button">Join</button>
+        </form>
+      </div>
     </div>
+
     <div class="chat-container">
       <h2 class="chat-header">John chatting...</h2>
 

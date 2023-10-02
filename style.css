@@ -1,4 +1,5 @@
 body {
+  font-family: 'Roboto', sans-serif;
   background-image: linear-gradient(
     23deg,
     hsl(49deg 100% 69%) 0%,
@@ -10,6 +11,53 @@ body {
     hsl(183deg 79% 36%) 100%
   );
   height: 100vh;
+}
+
+/* User Info Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(21, 32, 43, 0.9);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  padding: 1em;
+  background: #15202b;
+  border-radius: 0.5em;
+  color: #fff;
+  box-shadow: 0 0 0.5em rgba(103, 103, 103, 0.2);
+  margin: 1em;
+}
+
+.user-info-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-info-form input {
+  margin-bottom: 1em;
+  padding: 0.75em;
+  border: 0.0625em solid #38444d;
+  background: #1c2938;
+  border-radius: 0.5em;
+  color: #fff;
+}
+
+.user-info-form input::placeholder {
+  color: #ffffffb3;
+}
+
+/* Button */
+.join-button {
+  padding: 0.75em;
+  border-radius: 0.5em;
+  background: #17bf63;
+  color: #fff;
+  cursor: pointer;
 }
 
 .button {
@@ -27,29 +75,8 @@ body {
   transform: translateY(2px);
 }
 
-.person-selector {
-  display: flex;
-  justify-content: center;
-  gap: 1em;
-  margin: 3em auto 1em;
-  max-width: 40em;
-}
-
-.person-selector-button {
-  width: 100%;
-  background-color: #15202b;
-  color: #fff;
-  font-size: 1.1em;
-}
-
-.active-person {
-  background: #08529d;
-  box-shadow: 0 0 0.5em 0.1em #c3c3c333;
-}
-
 .chat-container {
   background: #15202b;
-  font-family: 'Roboto', sans-serif;
   border-radius: 0.5em;
   padding: 0.5em 1.25em;
   margin: auto;
