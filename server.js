@@ -9,28 +9,29 @@ const server = http.createServer((req, res) => {
 /* Initialize WebSocket server and bind it to the HTTP server */
 const wss = new WebSocket.Server({ server })
 
-// Map to store chatCode and corresponding WebSocket clients
-const chatRooms = new Map()
+/* Map to store chatCode and corresponding WebSocket clients */
+const chatRooms = {}
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    const { sender, text, timestamp, chatCode } = JSON.parse(message.toString())
+    const messageObject = JSON.parse(message.toString())
+    const { type, chatCode } = messageObject
 
-    // Associate new client with chatCode
-    if (!chatRooms.has(chatCode)) {
-      chatRooms.set(chatCode, new Set())
-    }
-    chatRooms.get(chatCode).add(ws)
+    if (type === 'join') {
+      /* Create a new chat room if it doesn't exist */
+      chatRooms[chatCode] = chatRooms[chatCode] || new Set()
 
-    // Broadcast message to clients with the same chatCode
-    const targetClients = chatRooms.get(chatCode)
-    if (targetClients) {
-      targetClients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ sender, text, timestamp, chatCode }))
-        }
-      })
+      return chatRooms[chatCode].add(ws)
     }
+
+    /* Broadcast message to clients with the same chatCode */
+    const targetClients = chatRooms[chatCode]
+
+    targetClients?.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify(messageObject))
+      }
+    })
   })
 })
 
