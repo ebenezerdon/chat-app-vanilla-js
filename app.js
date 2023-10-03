@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // Create a WebSocket connection
-const ws = new WebSocket('ws://localhost:3000')
+const ws = new WebSocket('ws://localhost:3000/server')
 
 ws.onmessage = (event) => {
   console.log('Message received from server')
@@ -30,9 +30,10 @@ const createChatMessageElement = (message) => `
   </div>
 `
 
-const updateMessageSender = (name) => {
+const updateMessageSender = (name, code) => {
   messageSender = name
-  chatHeader.innerText = `${messageSender} chatting...`
+  chatCode = code
+  chatHeader.innerText = `${name} chatting with code: ${code}`
   chatInput.placeholder = `Type here, ${messageSender}...`
 
   /* auto-focus the input field */
@@ -41,9 +42,10 @@ const updateMessageSender = (name) => {
 
 userInfoForm.addEventListener('submit', (e) => {
   e.preventDefault()
+  const username = e.target.username.value
+  const chatCode = e.target.chatCode.value
 
-  updateMessageSender(e.target.username.value)
-  chatCode = e.target.chatCode.value
+  updateMessageSender(username, chatCode)
 
   ws.send(JSON.stringify({ type: 'join', chatCode }))
   userInfoModal.style.display = 'none'
